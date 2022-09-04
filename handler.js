@@ -15,16 +15,26 @@ RETURNING *
 `;
 
 const updatePrice = async (event) => {
-  console.log("getting kda price from coingecko");
-  const kdaPrice = await getPriceFromCoinGecko();
-  console.log("price is " + kdaPrice);
+  let retryTimes = 0;
   const currMinute = new Date();
   currMinute.setSeconds(0);
   currMinute.setMilliseconds(0);
-  const values = [currMinute, kdaPrice];
-  console.log(`adding values to postgres, ${currMinute}`);
-  await client.query(insertQuery, values);
-  console.log(`added`);
+
+  while (retryTimes < 3) {
+    try {
+      console.log("getting kda price from coingecko");
+      const kdaPrice = await getPriceFromCoinGecko();
+      console.log("price is " + kdaPrice);
+      const values = [currMinute, kdaPrice];
+      console.log(`adding values to postgres, ${currMinute}`);
+      await client.query(insertQuery, values);
+      console.log(`added`);
+      break;
+    } catch (e) {
+      retryTimes += 1;
+      console.log("FAILED TO UPDATE, RETRYING " + retryTimes + " times");
+    }
+  }
 };
 
 const getPriceFromCoinGecko = async () => {
