@@ -10,6 +10,7 @@ client.connect();
 const insertQuery = `
 INSERT INTO kda_price(timestamp, price)
 VALUES ($1, $2) 
+ON CONFLICT (timestamp) DO UPDATE SET price = excluded.price
 RETURNING *
 `;
 
