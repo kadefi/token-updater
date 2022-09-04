@@ -13,7 +13,7 @@
 
 service: token-updater
 # app and org for use with dashboard.serverless.com
-app: kadefi-token-updater
+app: token-updater
 org: kadefimoney
 
 # You can pin your service to only deploy with a specific Serverless version

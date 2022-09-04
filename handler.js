@@ -31,9 +31,7 @@ const getPriceFromCoinGecko = async () => {
     `https://api.coingecko.com/api/v3/simple/price?ids=kadena&vs_currencies=usd`
   );
   const price = resp["kadena"]["usd"];
-  return {
-    price,
-  };
+  return price;
 };
 
 async function retry(func) {
