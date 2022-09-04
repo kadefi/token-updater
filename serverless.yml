@@ -14,7 +14,7 @@
 service: token-updater
 # app and org for use with dashboard.serverless.com
 app: kadefi-token-updater
-org: kadefi.money
+org: kadefimoney
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -33,10 +33,10 @@ functions:
         enabled: true
   #    Define function environment variables here
   environment:
-    PGHOST: ${env:PGHOST}
-    PGUSER: ${env:PGUSER}
-    PGDATABASE: ${env:PGDATABASE}
-    PGPASSWORD: ${env:PGPASSWORD}
+    PGHOST: ${param:PGHOST}
+    PGUSER: ${param:PGUSER}
+    PGDATABASE: ${param:PGDATABASE}
+    PGPASSWORD: ${param:PGPASSWORD}
     PGPORT: 5432
     PGTABLE: kda_price
 #resources:

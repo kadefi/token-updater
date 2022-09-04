@@ -22,11 +22,7 @@ jobs:
       - name: serverless deploy
         uses: serverless/github-action@master
         with:
-          args: deploy
+          args: deploy --param PGHOST=${{secrets.PGHOST}} --param PGUSER=${{secrets.PGUSER}} --param PGDATABASE=${{secrets.PGDATABASE}} --param PGPASSWORD=${{secrets.PGPASSWORD}}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          PGHOST: ${{secrets.PGHOST}}
-          PGUSER: ${{secrets.PGUSER}}
-          PGDATABASE: ${{secrets.PGDATABASE}}
-          PGPASSWORD: ${{secrets.PGPASSWORD}}
