@@ -28,7 +28,9 @@ functions:
   updatePrice:
     handler: handler.updatePrice
     events:
-      - schedule: rate(1 minute)
+      - schedule:
+          rate: rate(1 minute)
+          # enabled: false
     #    Define function environment variables here
     environment:
       PGHOST: ${param:PGHOST}
@@ -37,13 +39,3 @@ functions:
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
       PGTABLE: kda_price
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"

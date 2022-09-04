@@ -1,6 +1,6 @@
 "use strict";
 
-const { default: axios } = require("axios");
+const axios = require("axios");
 const { Client } = require("pg");
 const retryModule = require("async-retry");
 
