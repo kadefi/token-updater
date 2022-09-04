@@ -29,7 +29,7 @@ functions:
     handler: handler.updatePrice
     events:
       - schedule:
-          rate: rate(1 minute)
+          rate: rate(30 seconds)
           # enabled: false
     #    Define function environment variables here
     environment:
