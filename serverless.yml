@@ -27,18 +27,16 @@ provider:
 functions:
   updatePrice:
     handler: handler.updatePrice
-  events:
-    - schedule:
-        rate: rate(1 minute)
-        enabled: true
-  #    Define function environment variables here
-  environment:
-    PGHOST: ${param:PGHOST}
-    PGUSER: ${param:PGUSER}
-    PGDATABASE: ${param:PGDATABASE}
-    PGPASSWORD: ${param:PGPASSWORD}
-    PGPORT: 5432
-    PGTABLE: kda_price
+    events:
+      - schedule: rate(1 minute)
+    #    Define function environment variables here
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+      PGTABLE: kda_price
 #resources:
 #  Resources:
 #    NewResource:
