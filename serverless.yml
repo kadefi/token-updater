@@ -26,10 +26,10 @@ provider:
 
 functions:
   updatePrice:
-    handler: handler.updatePrice
+    handler: handler.updatePriceHandler
     events:
       - schedule:
-          rate: rate(30 seconds)
+          rate: rate(1 minute)
           # enabled: false
     #    Define function environment variables here
     environment:
