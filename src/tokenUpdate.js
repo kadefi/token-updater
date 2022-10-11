@@ -56,7 +56,7 @@ const tokenUpdate = async (client) => {
     const kaddexSet = await getKaddexTokens();
     const kdSwapSet = await getKDSwapTokens();
 
-    if (kaddexSet.size() === 0 || kdSwapSet.size() === 0) {
+    if (kaddexSet.size === 0 || kdSwapSet.size === 0) {
       return;
     }
     const queryRes = await client.query(getTokens);
