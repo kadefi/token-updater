@@ -86,5 +86,4 @@ const updatePrice = async (client) => {
   }
 };
 
-updatePrice();
 module.exports = updatePrice;
