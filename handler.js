@@ -6,7 +6,7 @@ client.connect();
 
 const updatePrice = require("./src/updatePrice");
 const updatePriceHandler = async (event) => {
-  updatePrice(client);
+  await updatePrice(client);
 };
 
 const tokenUpdate = require("./src/tokenUpdate");
