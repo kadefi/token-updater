@@ -51,15 +51,20 @@ const getTransactionMap = async (client, dex, kdaPriceMap, startMinute, endMinut
 }
 
 const candleUpdate = async (dex, client) => {
+  console.log(`Running candle update for ${dex}`)
   const currMinute = DateTime.now().startOf("minute");
   const endMinute = currMinute.minus({ minutes: 1 });
   let startMinute = currMinute.minus({ minutes: 6 });
+
+  console.log(`get tokens for dex ${dex}`)
   const tokensResp = await client.query(
     `SELECT ticker, address FROM token_info t INNER JOIN dex_info d ON t.address = d.token_address WHERE dex = $1 AND t.address != 'coin'`,
     [dex]
   );
 
   const tokens = tokensResp.rows;
+
+  console.log(`get kda prices`)
   const kdaPriceResp = await client.query(
     "SELECT timestamp, price FROM kda_price WHERE timestamp >= $1 AND timestamp <= $2",
     [startMinute.toJSDate(), endMinute.toJSDate()]
@@ -69,7 +74,7 @@ const candleUpdate = async (dex, client) => {
     p[timestamp] = parseFloat(price);
     return p;
   }, {});
-
+  console.log(`built kda price map`)
   const transactionMap = await getTransactionMap(client, dex, kdaPriceMap, startMinute, endMinute);
   for(let token of tokens) {
     console.log(`Processing for ${token.ticker}`)
@@ -113,6 +118,7 @@ const candleUpdate = async (dex, client) => {
       start = start.plus({minutes: 1});
     }
 
+    console.log(`built ${candles.length} candles for ${token.ticker} for ${dex}`)
     const insertQuery = `
       INSERT INTO ${dex}_price (ticker, timestamp, low, high, open, close, volume) 
       VALUES %L 
