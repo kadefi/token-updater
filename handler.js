@@ -14,7 +14,14 @@ const updateTokenHandler = async (event) => {
   await tokenUpdate(client);
 };
 
+const candleUpdate = require("./src/candleUpdate");
+const candleUpdateHandler = async (event) => {
+  const { dex } = event;
+  await candleUpdate(dex, client);
+};
+
 module.exports = {
   updatePriceHandler,
   updateTokenHandler,
+  candleUpdateHandler,
 };
