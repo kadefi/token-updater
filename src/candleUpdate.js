@@ -92,7 +92,7 @@ const candleUpdate = async (dex, client) => {
       } else {
         prevClose = candles[candles.length - 1][5];
       }
-      if(start.toJSDate() in transactions) {
+      if(transactions && start.toJSDate() in transactions) {
         const info = transactions[start.toJSDate()];
         candles.push([
           token.ticker,
