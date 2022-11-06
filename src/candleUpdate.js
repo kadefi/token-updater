@@ -17,7 +17,11 @@ const getTransactionMap = async (client, dex, kdaPriceMap, startMinute, endMinut
         ? fromAmount / toAmount
         : toAmount / fromAmount;
 
-    const priceInUSD = priceInKDA * kdaPriceMap[date];
+    let kdaMinute = date;
+    while(!(kdaMinute in kdaPriceMap)) {
+      kdaMinute = DateTime.fromJSDate(kdaMinute).minus({minutes:1}).toJSDate();
+    }
+    const priceInUSD = priceInKDA * kdaPriceMap[kdaMinute];
     if (address in p) {
       const transactions = p[address];
       if (date in transactions) {
