@@ -1,4 +1,5 @@
 const { DateTime } = require("luxon");
+const format = require("pg-format");
 
 const getTransactionMap = async (client, dex, kdaPriceMap, startMinute, endMinute) => {
   const transactionsResp = await client.query(
