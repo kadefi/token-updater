@@ -57,9 +57,8 @@ const getTransactionMap = async (client, dex, kdaPriceMap, startMinute, endMinut
 
 const candleUpdate = async (dex, client) => {
   console.log(`Running candle update for ${dex}`)
-  const currMinute = DateTime.now().startOf("minute");
-  const endMinute = currMinute.minus({ minutes: 1 });
-  let startMinute = currMinute.minus({ minutes: 6 });
+  const endMinute = DateTime.now().startOf("minute");
+  let startMinute = currMinute.minus({ minutes: 4 });
 
   console.log(`get tokens for dex ${dex}`)
   const tokensResp = await client.query(
@@ -93,7 +92,7 @@ const candleUpdate = async (dex, client) => {
           `SELECT close FROM ${dex}_price WHERE ticker = $1 AND timestamp < $2 ORDER BY timestamp DESC LIMIT 1`,
           [token.ticker, startMinute.toJSDate()]
         );
-        prevClose = prevCloseR.rows[0].close;
+        prevClose = parseFloat(prevCloseR.rows[0].close);
       } else {
         prevClose = candles[candles.length - 1][5];
       }
