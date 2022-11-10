@@ -48,13 +48,22 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
-  candleUpdate:
+  candleUpdateKaddex:
     handler: handler.candleUpdateHandler
     events:
       - schedule:
           rate: rate(1 minute)
           input:
             dex: kaddex
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+  candleUpdateKDSwap:
+    handler: handler.candleUpdateHandler
+    events:
       - schedule:
           rate: rate(1 minute)
           input:
