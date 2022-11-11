@@ -56,7 +56,7 @@ const getTransactionMap = async (client, dex, kdaPriceMap, startMinute, endMinut
   return transactionMap;
 }
 
-const candleUpdate = async (dex, client) => {
+const candleUpdate = async (dex, client, lookback) => {
   console.log(`Running candle update for ${dex}`)
   const endMinute = DateTime.now().startOf("minute");
   let startMinute = endMinute.minus({ minutes: 4 });
@@ -86,7 +86,7 @@ const candleUpdate = async (dex, client) => {
     let start = startMinute;
     const transactions = transactionMap[token.address];
     let candles = [];
-    while(start < endMinute) {
+    while(start <= endMinute) {
       let prevClose;
       if(start.equals(startMinute)) {
         const prevCloseR = await client.query(
