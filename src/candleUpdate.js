@@ -27,8 +27,9 @@ const getTransactionMap = async (client, dex, kdaPriceMap, startMinute, endMinut
       if (date in transactions) {
         transactions[date].volume += parseFloat(volume);
         transactions[date].close = priceInUSD;
-        transactions[date].low = Math.min(p[address].low, priceInUSD);
-        transactions[date].high = Math.max(p[address].high, priceInUSD);
+        transactions[date].low = Math.min(transactions[date].low, priceInUSD);
+        transactions[date].high = Math.max(transactions[date].high, priceInUSD);
+        p[address] = transactions;
       } else {
         p[address][date] = {
           volume: parseFloat(volume),
