@@ -74,3 +74,46 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
+  candleUpdateKaddex1:
+    handler: handler.candleUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kaddex
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+  candleUpdateKDSwap1:
+    handler: handler.candleUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kdswap
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+  candleUpdateAll:
+    handler: handler.candleUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kdswap
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kaddex
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
