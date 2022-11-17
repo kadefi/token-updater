@@ -8,6 +8,9 @@ const getTransactionMap = async (client, dex, kdaPriceMap, startMinute, endMinut
   );
   const transactionMap = transactionsResp.rows.reduce((p, row) => {
     const { timestamp,from_token,to_token,from_amount,to_amount,volume} = row;
+    if(parseFloat(volume) < 0.00000001) {
+      return p;
+    }
     const address = from_token === "coin" ? to_token : from_token;
     const fromAmount = parseFloat(from_amount);
     const toAmount = parseFloat(to_amount);
