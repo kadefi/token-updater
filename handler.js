@@ -20,8 +20,15 @@ const candleUpdateHandler = async (event) => {
   await candleUpdate(dex, client);
 };
 
+const materialViewUpdate = require("./src/materialViewUpdate");
+const materialViewUpdateHandler = async (event) => {
+  await materialViewUpdate(client);
+};
+
+
 module.exports = {
   updatePriceHandler,
   updateTokenHandler,
   candleUpdateHandler,
+  materialViewUpdateHandler,
 };
