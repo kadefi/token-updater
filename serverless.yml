@@ -140,4 +140,4 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
-    timeout: 30
+    timeout: 60
