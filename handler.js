@@ -28,6 +28,7 @@ const materialViewUpdateHandler = async (event) => {
 const barsViewUpdate = require("./src/barsViewUpdate");
 const barsViewUpdateHandler = async (event) => {
   const pool = new Pool({ max: 6 })
+  pool.connect()
   await barsViewUpdate(pool);
 };
 
