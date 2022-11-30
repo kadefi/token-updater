@@ -129,3 +129,15 @@ functions:
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
     timeout: 30
+  barsViewUpdate:
+    handler: handler.barsViewUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+    timeout: 30

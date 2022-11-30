@@ -1,6 +1,6 @@
 "use strict";
 
-const { Client } = require("pg");
+const { Client, Pool } = require("pg");
 const client = new Client();
 client.connect();
 
@@ -25,10 +25,18 @@ const materialViewUpdateHandler = async (event) => {
   await materialViewUpdate(client);
 };
 
+const barsViewUpdate = require("./src/barsViewUpdate");
+const barsViewUpdateHandler = async (event) => {
+  const pool = new Pool({ max: 6 })
+  await barsViewUpdate(pool);
+};
+
+
 
 module.exports = {
   updatePriceHandler,
   updateTokenHandler,
   candleUpdateHandler,
   materialViewUpdateHandler,
+  barsViewUpdateHandler,
 };
