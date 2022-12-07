@@ -1,26 +1,36 @@
+require('dotenv').config();
+
+const doRefresh = async(client, dex, interval) => {
+  console.log(`doing for ${dex} ${interval}`);
+  console.time(`${dex}${interval}`)
+  try {
+    await client.query(`REFRESH MATERIALIZED VIEW CONCURRENTLY ${dex}_bars_${interval}_view;`)
+  } catch(e) {
+    console.log(e);
+  }
+  console.timeEnd(`${dex}${interval}`)
+  console.log(`done for ${dex} ${interval}`);
+}
 
 const barsViewUpdate = async (client) => {
   try {
     let i = 0;
-    var intervalId = setInterval(async () => {
+    for(let i = 0; i < 10; i++) {
       console.log(`starting refresh ${i}`);
+      console
       await Promise.allSettled([
-        client.query(`REFRESH MATERIALIZED VIEW CONCURRENTLY kaddex_bars_day_view;`),
-        client.query(`REFRESH MATERIALIZED VIEW CONCURRENTLY kdswap_bars_day_view;`),
-        client.query(`REFRESH MATERIALIZED VIEW CONCURRENTLY kaddex_bars_hour_view;`),
-        client.query(`REFRESH MATERIALIZED VIEW CONCURRENTLY kdswap_bars_hour_view;`),
-        client.query(`REFRESH MATERIALIZED VIEW CONCURRENTLY kaddex_bars_minute_view;`),
-        client.query(`REFRESH MATERIALIZED VIEW CONCURRENTLY kdswap_bars_minute_view;`)
+        // doRefresh(client, 'kaddex','day'),
+        // doRefresh(client, 'kaddex','hour'),
+        doRefresh(client, 'kaddex','minute'),
+        // doRefresh(client, 'kdswap','day'),
+        // doRefresh(client, 'kdswap','hour'),
+        doRefresh(client, 'kdswap','minute'),
       ])
-      console.log(`ending refresh ${i}`);
-      i += 1;
-      if(i === 6) {
-        await client.end()
-        clearInterval(intervalId);
-      }
-    }, 10000)
-    
 
+      console.log(`ending refresh ${i}`);
+      await new Promise(r => setTimeout(r, 5000));
+    }
+    await client.end()
   } catch (e) {
     console.log(e);
     console.log("error happaend");
@@ -28,3 +38,4 @@ const barsViewUpdate = async (client) => {
 };
 
 module.exports = barsViewUpdate
+

@@ -32,6 +32,11 @@ const barsViewUpdateHandler = async (event) => {
   await barsViewUpdate(pool);
 };
 
+const hourBarsUpdate = require("./src/hourBarsUpdate");
+const hourBarsUpdateHandler = async (event) => {
+  const { dex } = event;
+  await hourBarsUpdate(dex, client);
+};
 
 
 module.exports = {
@@ -40,4 +45,5 @@ module.exports = {
   candleUpdateHandler,
   materialViewUpdateHandler,
   barsViewUpdateHandler,
+  hourBarsUpdateHandler,
 };
