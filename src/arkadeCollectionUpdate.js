@@ -1,6 +1,6 @@
 const { default: axios } = require("axios")
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
-const { UpdateCommand } = require("@aws-sdk/lib-dynamodb");
+const { PutCommand } = require("@aws-sdk/lib-dynamodb");
 const ddbClient = new DynamoDBClient({ region: "us-east-1" });
 const CACHE_TABLE = process.env.ARKADE_TABLE || false;
 
@@ -23,7 +23,7 @@ const arkadeCollectionUpdate = async () => {
       cachedValue: JSON.stringify(results),
     },
   };
-  ddbClient.send(new UpdateCommand(item)); 
+  ddbClient.send(new PutCommand(item)); 
 }
 
 module.exports = arkadeCollectionUpdate
