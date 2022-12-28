@@ -27,6 +27,4 @@ const arkadeCollectionUpdate = async () => {
 }
 
 
-module.exports = {
-  arkadeCollectionUpdate
-}
+module.exports = arkadeCollectionUpdate
