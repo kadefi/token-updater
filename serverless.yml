@@ -201,7 +201,7 @@ functions:
       - schedule:
           rate: rate(30 minute)
     environment:
-      ARKADE_TABLE: arkade-${opt:stage, self:provider.stage}
+      ARKADE_TABLE: arkade-collection
 
 resources:
   Resources:
