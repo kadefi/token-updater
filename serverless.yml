@@ -23,6 +23,16 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs16.x
+  environment:
+    ARKADE_TABLE: arkade-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "*"
 
 functions:
   updatePrice:
@@ -185,3 +195,27 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
+  arkadeCollectionUpdateHandler:
+    handler: handler.arkadeCollectionUpdateHandler
+    events:
+      - schedule:
+          rate: rate(30 minute)
+    environment:
+      ARKADE_TABLE: arkade-${opt:stage, self:provider.stage}
+
+resources:
+  Resources:
+    cacheTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.ARKADE_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
+        BillingMode: PAY_PER_REQUEST

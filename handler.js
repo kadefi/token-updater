@@ -38,6 +38,11 @@ const hourBarsUpdateHandler = async (event) => {
   await hourBarsUpdate(dex, client);
 };
 
+const arkadeCollectionUpdate = require("./src/arkadeCollectionUpdate");
+const arkadeCollectionUpdateHandler = async (event) => {
+  await arkadeCollectionUpdate();
+};
+
 
 module.exports = {
   updatePriceHandler,
@@ -46,4 +51,5 @@ module.exports = {
   materialViewUpdateHandler,
   barsViewUpdateHandler,
   hourBarsUpdateHandler,
+  arkadeCollectionUpdateHandler,
 };
