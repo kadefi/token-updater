@@ -25,6 +25,11 @@ provider:
   runtime: nodejs16.x
   environment:
     ARKADE_TABLE: arkade-collection
+    PGHOST: ${param:PGHOST}
+    PGUSER: ${param:PGUSER}
+    PGDATABASE: ${param:PGDATABASE}
+    PGPASSWORD: ${param:PGPASSWORD}
+    PGPORT: 5432
   iamRoleStatements:
     - Effect: Allow
       Action:
