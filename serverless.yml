@@ -204,7 +204,7 @@ functions:
     handler: handler.arkadeCollectionUpdateHandler
     events:
       - schedule:
-          rate: rate(1 minute)
+          rate: rate(30 minutes)
     environment:
       ARKADE_TABLE: arkade-collection
 
