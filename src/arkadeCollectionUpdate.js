@@ -25,3 +25,8 @@ const arkadeCollectionUpdate = async () => {
   };
   ddbClient.send(new UpdateCommand(item)); 
 }
+
+
+module.exports = {
+  arkadeCollectionUpdate
+}
