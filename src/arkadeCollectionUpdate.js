@@ -14,7 +14,7 @@ const arkadeCollectionUpdate = async () => {
       },
     }
   );
-  const results = d.data.result;
+  const results = d.data.collections;
   console.log(`got ${results.length} collections`)
   const item = {
     TableName: CACHE_TABLE,
@@ -25,6 +25,5 @@ const arkadeCollectionUpdate = async () => {
   };
   ddbClient.send(new UpdateCommand(item)); 
 }
-
 
 module.exports = arkadeCollectionUpdate
