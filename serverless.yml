@@ -24,7 +24,7 @@ provider:
   name: aws
   runtime: nodejs16.x
   environment:
-    ARKADE_TABLE: arkade-${opt:stage, self:provider.stage}
+    ARKADE_TABLE: arkade-collection
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -208,7 +208,7 @@ resources:
     cacheTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.ARKADE_TABLE}
+        TableName: arkade-collection
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
