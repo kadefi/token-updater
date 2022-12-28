@@ -7,7 +7,7 @@ const { stringify } = require("zipson/lib");
 
 const arkadeCollectionUpdate = async () => {
   const d = await axios.get(
-    "https://arkade-api.herokuapp.com/collection/all",
+    "https://arkade-api.herokuapp.com/collection/latest",
     {
       headers: {
         Origin: "https://www.arkade.fun",
