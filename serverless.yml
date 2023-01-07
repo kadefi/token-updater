@@ -70,6 +70,7 @@ functions:
           rate: rate(1 minute)
           input:
             dex: kaddex
+            base: usd
     environment:
       PGHOST: ${param:PGHOST}
       PGUSER: ${param:PGUSER}
@@ -83,32 +84,35 @@ functions:
           rate: rate(1 minute)
           input:
             dex: kdswap
+            base: usd
     environment:
       PGHOST: ${param:PGHOST}
       PGUSER: ${param:PGUSER}
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
-  candleUpdateKaddex1:
+  candleUpdateKaddexKDA:
     handler: handler.candleUpdateHandler
     events:
       - schedule:
           rate: rate(1 minute)
           input:
             dex: kaddex
+            base: kda
     environment:
       PGHOST: ${param:PGHOST}
       PGUSER: ${param:PGUSER}
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
-  candleUpdateKDSwap1:
+  candleUpdateKDSwapKDA:
     handler: handler.candleUpdateHandler
     events:
       - schedule:
           rate: rate(1 minute)
           input:
             dex: kdswap
+            base: kda
     environment:
       PGHOST: ${param:PGHOST}
       PGUSER: ${param:PGUSER}
@@ -122,10 +126,31 @@ functions:
           rate: rate(1 minute)
           input:
             dex: kdswap
+            base: usd
       - schedule:
           rate: rate(1 minute)
           input:
             dex: kaddex
+            base: usd
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+  candleUpdateAllKDA:
+    handler: handler.candleUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kdswap
+            base: kda
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kaddex
+            base: kda
     environment:
       PGHOST: ${param:PGHOST}
       PGUSER: ${param:PGUSER}

@@ -16,8 +16,8 @@ const updateTokenHandler = async (event) => {
 
 const candleUpdate = require("./src/candleUpdate");
 const candleUpdateHandler = async (event) => {
-  const { dex } = event;
-  await candleUpdate(dex, client);
+  const { dex, base } = event;
+  await candleUpdate(dex, client, base);
 };
 
 const materialViewUpdate = require("./src/materialViewUpdate");
@@ -25,17 +25,10 @@ const materialViewUpdateHandler = async (event) => {
   await materialViewUpdate(client);
 };
 
-const barsViewUpdate = require("./src/barsViewUpdate");
-const barsViewUpdateHandler = async (event) => {
-  const pool = new Pool({ max: 6 })
-  pool.connect()
-  await barsViewUpdate(pool);
-};
-
 const hourBarsUpdate = require("./src/hourBarsUpdate");
 const hourBarsUpdateHandler = async (event) => {
-  const { dex } = event;
-  await hourBarsUpdate(dex, client);
+  const { dex, base } = event;
+  await hourBarsUpdate(dex, client, base);
 };
 
 const arkadeCollectionUpdate = require("./src/arkadeCollectionUpdate");
@@ -49,7 +42,6 @@ module.exports = {
   updateTokenHandler,
   candleUpdateHandler,
   materialViewUpdateHandler,
-  barsViewUpdateHandler,
   hourBarsUpdateHandler,
   arkadeCollectionUpdateHandler,
 };

@@ -1,6 +1,7 @@
 const format = require("pg-format");
 
-const hourBarsUpdate = async (dex, client) => {
+const hourBarsUpdate = async (dex, client, base = 'usd') => {
+  const tableSuffix = base === 'usd' ? "" : "_kda"
   console.log(`Running hour bar update for ${dex}`);
 
   for (let i = 0; i < 5; i++) {
@@ -13,7 +14,7 @@ const hourBarsUpdate = async (dex, client) => {
       MIN(low) as low,
       (array_agg(close ORDER BY timestamp DESC))[1] as close,
       SUM(volume) as volume
-    FROM ${dex}_price 
+    FROM ${dex}_price${tableSuffix} 
     WHERE timestamp >= date_trunc('hour', NOW())
     GROUP BY ticker, date_trunc('hour', timestamp)
     ORDER by timestamp;
@@ -29,9 +30,9 @@ const hourBarsUpdate = async (dex, client) => {
         c.volume,
       ]);
       const insertQuery = `
-      INSERT INTO ${dex}_hour_bars (ticker, timestamp, low, high, open, close, volume) 
+      INSERT INTO ${dex}_hour_bars${tableSuffix}  (ticker, timestamp, low, high, open, close, volume) 
       VALUES %L 
-      ON CONFLICT ON CONSTRAINT ${dex}_hour_bars_ticker_timestamp_key
+      ON CONFLICT ON CONSTRAINT ${dex}_hour_bars_ticker_timestamp_key${tableSuffix} 
       DO UPDATE SET (ticker, timestamp, low, high, open, close, volume) = (EXCLUDED.ticker, EXCLUDED.timestamp, EXCLUDED.low, EXCLUDED.high, EXCLUDED.open, EXCLUDED.close, EXCLUDED.volume);
     `;
       const s = await client.query(format(insertQuery, candles));
