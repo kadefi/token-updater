@@ -14,7 +14,7 @@ const arkadeCollectionUpdate = async () => {
       },
     }
   );
-  const results = d.data.results;
+  const results = d.data.result;
   console.log(`got ${results.length} collections`)
   const item = {
     TableName: CACHE_TABLE,
