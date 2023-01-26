@@ -3,7 +3,7 @@ const { default: axios } = require("axios");
 const { DateTime } = require("luxon");
 const { makePactCall } = require("../pact");
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
-const { PutCommand } = require("@aws-sdk/lib-dynamodb");
+const { PutCommand, GetCommand } = require("@aws-sdk/lib-dynamodb");
 const ddbClient = new DynamoDBClient({ region: "us-east-1" });
 const CACHE_TABLE = process.env.TOKEN_INFO_TABLE || false;
 const { stringify, parse } = require("zipson/lib");
@@ -61,6 +61,10 @@ const getFluxCS = async () => {
   return dataR.data;
 };
 
+const getReserve = (tokenData) => {
+  return parseFloat(tokenData.decimal ? tokenData.decimal : tokenData);
+};
+
 const getWIZACS = async () => {
   const d = await makePactCall("1", `(free.wiza.get-circulating-supply)`);
   if (d.result && d.result.status === "success") {
@@ -115,21 +119,34 @@ const getTokens = async () => {
 
 const tokenInfoUpdate = async () => {
   try {
-    console.log("gettting data")
-    const [cs, red, tokens] = await Promise.all([getCirculatingSupply, getTotalReductions, getTokens])
-    
+    console.log("gettting data");
+    const [cs, red, tokens] = await Promise.all([
+      getCirculatingSupply(),
+      getTotalReductions(),
+      getTokens(),
+    ]);
+
+    console.log(tokens)
     const allTokens = tokens.map((token) => {
-      const totalSupply = token.totalSupply ? token.totalSupply - red[token.ticker] : null;
+      const totalSupply = token.totalSupply
+        ? token.totalSupply - red[token.ticker]
+        : null;
       const tempToken = Object.assign({}, token);
-      const tokenWithCorrectTs = Object.assign(tempToken, { totalSupply })
+      const tokenWithCorrectTs = Object.assign(tempToken, { totalSupply });
       return {
         ...tokenWithCorrectTs,
-        circulatingSupply: cs[token.ticker] === -1 ? totalSupply : cs[token.ticker] ? cs[token.ticker] : null,
+        circulatingSupply:
+          cs[token.ticker] === -1
+            ? totalSupply
+            : cs[token.ticker]
+            ? cs[token.ticker]
+            : null,
         image: `${CDN_PATH}/tokens/${token.ticker}.png`,
       };
     });
-    
-    console.log("built tokens")
+
+    console.log(allTokens)
+    console.log("built tokens");
     const item = {
       TableName: CACHE_TABLE,
       Item: {
@@ -137,13 +154,16 @@ const tokenInfoUpdate = async () => {
         cachedValue: stringify(allTokens),
       },
     };
-    console.log("updating")
-    await ddbClient.send(new PutCommand(item)); 
-    console.log("updated")
-  } catch(e) {
-    console.log(e.message)
+    console.log("updating");
+    await ddbClient.send(new PutCommand(item));
+    console.log("updated");
+  } catch (e) {
+    console.log(e.message);
   }
+};
 
-}
+(async() => {
+  await tokenInfoUpdate();
+})();
 
 module.exports = tokenInfoUpdate;
