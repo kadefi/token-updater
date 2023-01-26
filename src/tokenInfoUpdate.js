@@ -150,7 +150,7 @@ const tokenInfoUpdate = async () => {
       TableName: CACHE_TABLE,
       Item: {
         id: "tokens",
-        cachedValue: stringify(allTokens),
+        cachedValue: stringify(allTokens, { fullPrecisionFloats: true }),
       },
     };
     console.log("updating");
