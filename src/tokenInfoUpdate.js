@@ -126,7 +126,7 @@ const tokenInfoUpdate = async () => {
       getTokens(),
     ]);
 
-    console.log(tokens)
+    console.log(tokens);
     const allTokens = tokens.map((token) => {
       const totalSupply = token.totalSupply
         ? token.totalSupply - red[token.ticker]
@@ -145,7 +145,6 @@ const tokenInfoUpdate = async () => {
       };
     });
 
-    console.log(allTokens)
     console.log("built tokens");
     const item = {
       TableName: CACHE_TABLE,
@@ -161,9 +160,5 @@ const tokenInfoUpdate = async () => {
     console.log(e.message);
   }
 };
-
-(async() => {
-  await tokenInfoUpdate();
-})();
 
 module.exports = tokenInfoUpdate;
