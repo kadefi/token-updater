@@ -24,6 +24,7 @@ provider:
   name: aws
   runtime: nodejs16.x
   environment:
+    TOKEN_INFO_TABLE: token-info-table
     ARKADE_TABLE: arkade-collection
     PGHOST: ${param:PGHOST}
     PGUSER: ${param:PGUSER}
@@ -229,6 +230,53 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
+  hourBarsUpdateKDSwap:
+    handler: handler.hourBarsUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kdswap
+            base: kda
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+  hourBarsUpdateKaddex:
+    handler: handler.hourBarsUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kaddex
+            base: kda
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
+  hourBarsUpdateBoth:
+    handler: handler.hourBarsUpdateHandler
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kaddex
+            base: kda
+      - schedule:
+          rate: rate(1 minute)
+          input:
+            dex: kdswap
+            base: kda
+    environment:
+      PGHOST: ${param:PGHOST}
+      PGUSER: ${param:PGUSER}
+      PGDATABASE: ${param:PGDATABASE}
+      PGPASSWORD: ${param:PGPASSWORD}
+      PGPORT: 5432
   arkadeCollectionUpdateHandler:
     handler: handler.arkadeCollectionUpdateHandler
     events:
@@ -236,6 +284,13 @@ functions:
           rate: rate(30 minutes)
     environment:
       ARKADE_TABLE: arkade-collection
+  tokenInfoUpdateHandler:
+    handler: handler.tokenInfoUpdateHandler
+    events:
+      - schedule:
+          rate: rate(30 minutes)
+    environment:
+      TOKEN_INFO_TABLE: token-info-table
 
 resources:
   Resources:
@@ -243,6 +298,20 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: arkade-collection
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
+        BillingMode: PAY_PER_REQUEST
+    tokenInfoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: token-info-table
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S

@@ -36,6 +36,10 @@ const arkadeCollectionUpdateHandler = async (event) => {
   await arkadeCollectionUpdate();
 };
 
+const tokenInfoUpdate = require("./src/tokenInfoUpdate");
+const tokenInfoUpdateHandler = async (event) => {
+  await tokenInfoUpdate();
+};
 
 module.exports = {
   updatePriceHandler,
@@ -44,4 +48,5 @@ module.exports = {
   materialViewUpdateHandler,
   hourBarsUpdateHandler,
   arkadeCollectionUpdateHandler,
+  tokenInfoUpdateHandler,
 };
