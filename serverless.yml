@@ -230,7 +230,7 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
-  hourBarsUpdateKDSwap:
+  hourBarsUpdateKDSwapKDA:
     handler: handler.hourBarsUpdateHandler
     events:
       - schedule:
@@ -244,7 +244,7 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
-  hourBarsUpdateKaddex:
+  hourBarsUpdateKaddexKDA:
     handler: handler.hourBarsUpdateHandler
     events:
       - schedule:
@@ -258,7 +258,7 @@ functions:
       PGDATABASE: ${param:PGDATABASE}
       PGPASSWORD: ${param:PGPASSWORD}
       PGPORT: 5432
-  hourBarsUpdateBoth:
+  hourBarsUpdateBothKDA:
     handler: handler.hourBarsUpdateHandler
     events:
       - schedule:
