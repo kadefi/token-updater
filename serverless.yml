@@ -281,14 +281,14 @@ functions:
     handler: handler.arkadeCollectionUpdateHandler
     events:
       - schedule:
-          rate: rate(10 minutes)
+          rate: rate(30 minutes)
     environment:
       ARKADE_TABLE: arkade-collection
   tokenInfoUpdateHandler:
     handler: handler.tokenInfoUpdateHandler
     events:
       - schedule:
-          rate: rate(30 minutes)
+          rate: rate(10 minutes)
     environment:
       TOKEN_INFO_TABLE: token-info-table
 
