@@ -162,7 +162,7 @@ functions:
     handler: handler.materialViewUpdateHandler
     events:
       - schedule:
-          rate: rate(30 minute)
+          rate: rate(30 minutes)
     environment:
       PGHOST: ${param:PGHOST}
       PGUSER: ${param:PGUSER}
